@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import IndexPage from '../components/IndexPage.vue';
 import BlogDetail from '../components/detail.vue';
-import loginPage from '../components/log.vue';
+import loginPage from '../components/logIn.vue';
 import management from '../components/crud.vue';
 // import Lab1PY00011 from '../components/lab1.vue';
 
