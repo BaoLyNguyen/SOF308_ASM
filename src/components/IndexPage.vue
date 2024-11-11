@@ -281,7 +281,7 @@
 					<div class="overflow-hidden">
 						<h4>Phone</h4>
 						<p class="lead">
-							+01 123-456-4590
+							0901 943 596
 						</p>
 					</div>
 				</div>
@@ -290,7 +290,7 @@
 					<div class="overflow-hidden">
 						<h4>Email</h4>
 						<p class="lead">
-							yourmail@gmail.com
+							lyntbpy00011@gmail.com
 						</p>
 					</div>
 				</div>
@@ -299,7 +299,7 @@
 					<div class="overflow-hidden">
 						<h4>Location</h4>
 						<p class="lead">
-							800, Lorem Street, US
+							Quy Nhon, Binh Dinh, Viet Nam
 						</p>
 					</div>
 				</div>
