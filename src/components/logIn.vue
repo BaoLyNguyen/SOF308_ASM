@@ -94,6 +94,9 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+// import { ref } from 'vue';
 export default {
   data() {
     return {
@@ -109,12 +112,65 @@ export default {
   },
   methods: {
     submitLogin() {
-      console.log("Logging in:", this.username, this.password);
-    },
-    submitSignUp() {
-      console.log("Signing up:", this.signupUsername, this.signupPassword, this.signupFullname, this.signupEmail);
-      this.showSignUp = false;
-    },
+  axios
+    .post('http://localhost:8082/Backend_new/BackEnd/user/login', {
+      userName: this.username,
+      pass: this.password,
+    })
+    .then((response) => {
+      // Xử lý thành công
+      alert("Login successful");
+      console.log(response.data); // Kiểm tra dữ liệu trả về
+      // Reset các trường input
+      this.username = "";
+      this.password = "";
+      this.error = ""; // Xóa lỗi trước đó
+    })
+    .catch((error) => {
+      // Kiểm tra kỹ cấu trúc của error để tránh lỗi undefined
+      if (error.response && error.response.data && error.response.data.error) {
+        this.error = error.response.data.error; // Lưu lỗi từ server
+        alert(this.error); // Hiển thị lỗi
+      } else {
+        // Lỗi không mong đợi
+        this.error = "Login failed. Please check your username and password.";
+        alert(this.error);
+      }
+    });
+}
+
+,
+submitSignUp() {
+  axios
+    .post('http://localhost:8082/Backend_new/BackEnd/user/register', {
+      userName: this.signupUsername,
+      pass: this.signupPassword,
+      fullname: this.signupFullname,
+      email: this.signupEmail,
+    })
+    .then((response) => {
+      alert(response.data.message); // Hiển thị thông báo thành công
+      this.showSignUp = false; // Đóng modal đăng ký
+      // Reset các trường input
+      this.signupUsername = "";
+      this.signupPassword = "";
+      this.signupFullname = "";
+      this.signupEmail = "";
+      this.error = ""; // Xóa lỗi trước đó
+    })
+    .catch((error) => {
+      // Kiểm tra kỹ cấu trúc của error để tránh lỗi undefined
+      if (error.response && error.response.data && error.response.data.error) {
+        this.error = error.response.data.error; // Lưu lỗi vào biến error
+        alert(this.error); // Hiển thị lỗi
+      } else {
+        // Lỗi không mong đợi
+        this.error = "Registration failed. Please try again.";
+        alert(this.error);
+      }
+    });
+}
+
   },
   name: "loginPage",
 };
