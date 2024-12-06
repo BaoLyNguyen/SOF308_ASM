@@ -11,24 +11,25 @@
 				<div class="collapse navbar-collapse" id="navbars-rs-food">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Menu</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+						<li class="nav-item active"><a class="nav-link" href="/demo">demo</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Breakfast</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Lunch</a></li>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Pages</a>
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Drink</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown-a">
-								<a class="dropdown-item" href="#">Reservation</a>
-								<a class="dropdown-item" href="#">Stuff</a>
-								<a class="dropdown-item" href="#">Gallery</a>
+								<a class="dropdown-item" href="#">Cocktails</a>
+								<a class="dropdown-item" href="#">Tea</a>
 							</div>
 						</li>
-						<li class="nav-item dropdown">
+						<!-- <li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Blog</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown-a">
 								<a class="dropdown-item" href="blog.html">blog</a>
 								<a class="dropdown-item" href="/blogdetail">blog Single</a>
 							</div>
-						</li>
-						<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+						</li> -->
+						<li class="nav-item"><a class="nav-link" href="/blogdetail">Blog Details</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="/management">Management</a></li>
 					</ul>
                     <ul class="navbar-nav">

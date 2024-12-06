@@ -8,7 +8,7 @@
               <div class="col-md-12">
                 <h1 class="m-b-20"><strong>Chào mừng đến với <br> Yamifood Restaurant</strong></h1>
                 <p class="m-b-40">Xem cách người dùng trải nghiệm trang web của bạn theo thời gian thực hoặc xem xu hướng để thấy sự thay đổi trong hiệu suất.</p>
-                <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Đặt bàn</a></p>
+                <!-- <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Đặt bàn</a></p> -->
               </div>
             </div>
           </div>
