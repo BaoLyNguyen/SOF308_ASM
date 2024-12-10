@@ -57,7 +57,7 @@
               <div class="form-group">
                 <label>Mật khẩu:</label>                
                 <input
-  type="text"
+  type="password"
   v-model="user.pass"
   class="form-control"
   id="pass"
