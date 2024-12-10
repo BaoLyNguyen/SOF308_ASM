@@ -6,8 +6,8 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h1 class="m-b-20"><strong>Chào mừng đến với <br> Yamifood Restaurant</strong></h1>
-                <p class="m-b-40">Xem cách người dùng trải nghiệm trang web của bạn theo thời gian thực hoặc xem xu hướng để thấy sự thay đổi trong hiệu suất.</p>
+                <h1 class="m-b-20"><strong>Chào mừng đến với Resto</strong></h1>
+
                 <!-- <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Đặt bàn</a></p> -->
               </div>
             </div>
@@ -27,7 +27,7 @@
     data() {
       return {
         slides: [
-          { image: '/images/slider-01.jpg' },
+          // { image: '/images/slider-01.jpg' },
           { image: '/images/slider-02.jpg' },
           { image: '/images/slider-03.jpg' }
         ]

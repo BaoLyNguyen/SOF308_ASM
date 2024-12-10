@@ -1,6 +1,6 @@
 <template>
   <div class="post-management">
-    <div :class="{ 'blur-background': showSignUp || showForgotPassword }">
+    <div :class="{ 'blur-background': showSignUp }">
       <!-- Form Login -->
       <div class="row">
         <div class="col-lg-12">
@@ -94,9 +94,8 @@
 </template>
 
 <script>
-
 import axios from 'axios';
-// import { ref } from 'vue';
+
 export default {
   data() {
     return {
@@ -110,71 +109,79 @@ export default {
       showSignUp: false,
     };
   },
+  mounted() {
+    // Kiểm tra trạng thái đăng nhập khi form đăng nhập được tải
+    if (this.$store.getters.isAuthenticated) {
+      // Nếu đã đăng nhập, chuyển hướng đến trang home
+      this.$router.push({ name: 'Home' });
+    }
+  },
   methods: {
     submitLogin() {
-  axios
-    .post('http://localhost:8082/Backend_new/BackEnd/user/login', {
-      userName: this.username,
-      pass: this.password,
-    })
-    .then((response) => {
-      // Xử lý thành công
-      alert("Login successful");
-      console.log(response.data); // Kiểm tra dữ liệu trả về
-      // Reset các trường input
+  this.error = ""; // Xóa thông báo lỗi trước khi gửi yêu cầu
+
+  // Kiểm tra nếu người dùng đã có thông tin trong localStorage
+  if (!this.username || !this.password) {
+    this.error = "Tên đăng nhập và mật khẩu không được để trống!";
+    return;
+  }
+
+  this.$store.dispatch('login', { userName: this.username, pass: this.password })
+    .then(() => {
+      alert("Đăng nhập thành công");
       this.username = "";
       this.password = "";
-      this.error = ""; // Xóa lỗi trước đó
+      this.$router.push({ name: 'Home' });
     })
     .catch((error) => {
-      // Kiểm tra kỹ cấu trúc của error để tránh lỗi undefined
-      if (error.response && error.response.data && error.response.data.error) {
-        this.error = error.response.data.error; // Lưu lỗi từ server
-        alert(this.error); // Hiển thị lỗi
-      } else {
-        // Lỗi không mong đợi
-        this.error = "Login failed. Please check your username and password.";
-        alert(this.error);
-      }
+      this.error = "Đăng nhập thất bại. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.";
+      console.error("Login failed:", error);  // Log lỗi vào console để dễ debug
+      alert(this.error);  // Hiển thị lỗi cho người dùng
     });
-}
+},
 
-,
-submitSignUp() {
-  axios
-    .post('http://localhost:8082/Backend_new/BackEnd/user/register', {
-      userName: this.signupUsername,
-      pass: this.signupPassword,
-      fullname: this.signupFullname,
-      email: this.signupEmail,
-    })
-    .then((response) => {
-      alert(response.data.message); // Hiển thị thông báo thành công
-      this.showSignUp = false; // Đóng modal đăng ký
-      // Reset các trường input
-      this.signupUsername = "";
-      this.signupPassword = "";
-      this.signupFullname = "";
-      this.signupEmail = "";
-      this.error = ""; // Xóa lỗi trước đó
-    })
-    .catch((error) => {
-      // Kiểm tra kỹ cấu trúc của error để tránh lỗi undefined
-      if (error.response && error.response.data && error.response.data.error) {
-        this.error = error.response.data.error; // Lưu lỗi vào biến error
-        alert(this.error); // Hiển thị lỗi
-      } else {
-        // Lỗi không mong đợi
-        this.error = "Registration failed. Please try again.";
-        alert(this.error);
-      }
-    });
-}
 
+    submitSignUp() {
+      axios
+        .post('http://localhost:8082/Backend_new/BackEnd/user/register', {
+          userName: this.signupUsername,
+          pass: this.signupPassword,
+          fullname: this.signupFullname,
+          email: this.signupEmail,
+        })
+        .then((response) => {
+          alert(response.data.message); // Hiển thị thông báo thành công
+          this.showSignUp = false; // Đóng modal đăng ký
+          // Reset các trường input
+          this.signupUsername = "";
+          this.signupPassword = "";
+          this.signupFullname = "";
+          this.signupEmail = "";
+
+          // Chuyển hướng đến trang login
+          this.$router.push('/login');
+        })
+        .catch((error) => {
+          if (error.response && error.response.data && error.response.data.error) {
+            this.error = error.response.data.error;
+            alert(this.error);
+          } else {
+            this.error = "Đăng ký thất bại. Vui lòng thử lại!";
+            alert(this.error);
+          }
+        });
+    },
+
+    logout() {
+      // Reset trạng thái người dùng trong Vuex
+      this.$store.dispatch('logout');
+      this.$router.push('/login'); // Chuyển hướng về trang login
+    },
   },
   name: "loginPage",
 };
 </script>
+
 
 <style scoped>
 .post-management {

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="heading-title text-center custom">
-          <h2>Post Management</h2>
+          <h2>Quản lý bài viết</h2>
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@
             />
             <div class="col-md-12">
               <div class="form-group">
-                <label>Title:</label>
+                <label>Tiêu đề:</label>
                 <input
   type="text"
   v-model="article.title"
@@ -43,7 +43,7 @@
 
             <div class="col-md-12">
               <div class="form-group">
-                <label>Category:</label>
+                <label>Thể loại:</label>
                 <select
                   class="custom-select d-block form-control"
                   id="category"
@@ -62,7 +62,7 @@
 
             <div class="col-md-12">
               <div class="form-group">
-                <label>Content:</label>                
+                <label>Nội dung:</label>                
                 <textarea
                   class="form-control"
                   v-model="article.content"
@@ -78,7 +78,7 @@
 
             <div class="col-md-12">
               <div class="form-group">
-                <label>Image:</label>
+                <label>Hình ảnh:</label>
                 <input
                   type="file"
                   @change="onFileChange"
@@ -95,7 +95,8 @@
           v-if="typeof article.images === 'string'"
           :src="`/${article.images}`"
           alt="Current image"
-          style="width:50%;"
+          class="rounded mx-auto d-block"
+          style="height:200px;;"
         />
       </div>
             </div>
@@ -110,7 +111,7 @@
                     name="home"
                     value="true"
                   />
-                  Post to the front page?</label>
+                  Hiện trang chủ?</label>
                 <div class="help-block with-errors"></div>
               </div>
             </div>
@@ -118,16 +119,16 @@
             <div class="submit-button text-center">
 
               <button type="button" class="btn btn-common" @click.prevent="createArticle">
-              Add
+              Thêm
             </button>
 
 
 <button type="button" class="btn btn-common" @click.prevent="updateArticle">
-              Update
+              Sửa
             </button>
 
 <button type="button" class="btn btn-common" @click.prevent="deleteArticle">
-  Delete
+  Xóa
 </button>
 <button type="button" class="btn btn-common" @click.prevent="resetArticle">
   Reset
@@ -144,22 +145,22 @@
 
   <div class="table-all">
     <div class="heading-title text-center custom-table">
-      <h2>Post List</h2>
+      <h2>Danh sách bài viết</h2>
     </div>
     <table>
       <thead>
         <tr>
           <th>STT</th>
-          <th>Title</th>
-          <th>Posted Date</th>
-          <th>Category</th>
-          <th>Front page?</th>
+          <th>Tiêu đề</th>
+          <th>Ngày đăng</th>
+          <th>Thể loại</th>
+          <th>Trang nhất?</th>
           <th>Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(a,index) in articles" :key="a.id">
-          <td>{{ index+1 }}</td>
+        <tr v-for="(a,index) in paginatedArticles" :key="a.id">
+          <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td>
           <td>{{a.title}}</td>
           <td>{{a.postedDate}}</td>
           <td>{{a.category}}</td>
@@ -172,6 +173,32 @@
         </tr>
       </tbody>
     </table>
+    <!-- Pagination -->
+    <div class="pagination">
+      <button
+        class="btn btn-common"
+        :disabled="currentPage === 1"
+        @click="changePage(currentPage - 1)"
+      >
+        Previous
+      </button>
+      <button
+        v-for="page in totalPages"
+        :key="page"
+        class="btn btn-common"
+        :class="{ active: page === currentPage }"
+        @click="changePage(page)"
+      >
+        {{ page }}
+      </button>
+      <button
+        class="btn btn-common"
+        :disabled="currentPage === totalPages"
+        @click="changePage(currentPage + 1)"
+      >
+        Next
+      </button>
+    </div>
   </div>
 </template>
 
@@ -182,8 +209,9 @@ export default {
 </script>
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
-
+import { ref, computed } from 'vue';
+const currentPage = ref(1); // Trang hiện tại
+const itemsPerPage = 5; // Số bài viết mỗi trang
 const articles = ref([]);
 const categories = ref([]);
 const article = ref({
@@ -322,10 +350,27 @@ const resetArticle = () => {
   isEditing.value = false;
 };
 
-
-onMounted(() => {
-  getPosts();
+// Tính toán bài viết hiển thị trên trang hiện tại
+const paginatedArticles = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return articles.value.slice(start, end);
 });
+
+// Tổng số trang
+const totalPages = computed(() => {
+  return Math.ceil(articles.value.length / itemsPerPage);
+});
+
+// Chuyển trang
+const changePage = (page) => {
+  if (page > 0 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
+};
+
+  getPosts();
+
 </script>
 
 
@@ -436,5 +481,26 @@ tbody tr:nth-child(odd) {
 tbody tr {
   background-color: rgba(0, 0, 0, 0.087);
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
+.pagination .btn {
+  padding: 8px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination .btn.active {
+  background-color: #d0a772;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination .btn:disabled {
+  cursor: not-allowed;
+  background-color: #ddd;
+}
 </style>
